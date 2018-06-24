@@ -8,3 +8,4 @@
 
 - 修改config.toml.bak文件为config.toml
 - 填写文件内容，redis和mysql的配置。
+- 建立数据库wpx-js, 运行mysql.sql文件，建立数据表

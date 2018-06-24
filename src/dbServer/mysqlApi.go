@@ -21,7 +21,6 @@ func CreateMysqlApi(config *common.Config) MysqlApi {
 func (mysqlApi *MysqlApi) connect() error {
 	mysqlUrl := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8", mysqlApi.config.DB.Username,
 		mysqlApi.config.DB.Password, mysqlApi.config.DB.Server, mysqlApi.config.DB.Port, mysqlApi.config.DB.Db)
-	println(mysqlUrl)
 	db, err := sql.Open("mysql", mysqlUrl)
 	db.SetMaxOpenConns(mysqlApi.config.DB.PoolNumber)
 	mysqlApi.db = db

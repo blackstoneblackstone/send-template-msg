@@ -1,0 +1,12 @@
+[database]
+server = ""
+port = 63326
+db = ""
+username = "root"
+password = ""
+poolNumber = 10
+
+[redis]
+server = ""
+port = 6379
+password = ""

@@ -9,11 +9,11 @@ import (
 )
 
 type MysqlApi struct {
-	config *common.Config
 	db     *sql.DB
 }
 
-func CreateMysqlApi(config *common.Config) MysqlApi {
+func CreateMysqlApi() MysqlApi {
+	common.GetConfig()
 	mysqlApi := MysqlApi{config: config}
 	mysqlApi.connect()
 	return mysqlApi

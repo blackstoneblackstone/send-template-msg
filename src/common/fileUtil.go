@@ -1,9 +1,10 @@
 package common
 
-import "os"
+import (
+	"os"
+)
 
-type FileUtil struct {
-}
+type FileUtil struct {}
 
 func (file FileUtil) Check(e error) {
 	if e != nil {
@@ -21,3 +22,4 @@ func (file FileUtil) CheckFileIsExist(filename string) bool {
 	}
 	return exist
 }
+

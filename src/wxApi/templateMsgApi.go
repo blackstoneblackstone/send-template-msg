@@ -1,8 +1,16 @@
 package wxApi
 
+import (
+	"common"
+	"model"
+	"fmt"
+)
+
 type TemplateMsgApi struct {
 }
 
-func (templateMsgApi TemplateMsgApi) sendMsg() {
-
+func (templateMsgApi *TemplateMsgApi) sendMsg(msg model.SendMsg) {
+	accessToken := GetAccessToken(msg.AppId, msg.AppSec)
+	tplMsg, _ := common.HttpGet(SendTplMsgUrl(accessToken), &msg)
+	fmt.Print(tplMsg)
 }

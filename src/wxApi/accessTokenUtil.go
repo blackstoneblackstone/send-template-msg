@@ -1,4 +1,4 @@
-package common
+package wxApi
 
 import (
 	"fmt"
@@ -6,17 +6,15 @@ import (
 	"io/ioutil"
 	"model"
 	"os"
+	"common"
 )
 
-type AccessTokenUtil struct {
-	AppId, AppSec string
-}
-
-func (accessToken *AccessTokenUtil) GetAccessToken() (string, bool) {
+func GetAccessToken(AppId, AppSec string) (string) {
+	config := common.GetConfig()
 	var f *os.File
 	var err1 error
-	fileName := "/Users/lihongbin/Desktop/life/access_token_" + accessToken.AppId + ".json"
-	fileUtil := FileUtil{}
+	fileName := config.Wechat.AccessTokenPath + "/access_token_" + AppId + ".json"
+	fileUtil := common.FileUtil{}
 	at := model.AccessToken{}
 	if fileUtil.CheckFileIsExist(fileName) { //如果文件存在
 		fmt.Println("access token file have exist!")
@@ -27,13 +25,12 @@ func (accessToken *AccessTokenUtil) GetAccessToken() (string, bool) {
 		fmt.Println("access token file does not exist!")
 		//写入文件(字符串)
 		fileUtil.Check(err1)
-		httpUtil := HttpUtil{}
-		httpUtil.Get("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx4069e1635ae1be38&secret=4578c042ea9361b6e16626f1aa3d7e52", &at)
+		common.HttpGet(AccessTokenUrl(AppId, AppSec), &at)
 		if at.Errcode != 0 {
-			return at.Errmsg, false
+			panic(at.Errmsg)
 		} else {
 			io.WriteString(f, at.ModelToJson())
 		}
 	}
-	return at.Access_token, true
+	return at.Access_token
 }

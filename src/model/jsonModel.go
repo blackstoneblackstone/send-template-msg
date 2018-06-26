@@ -26,3 +26,24 @@ func (accessToken *AccessToken) ModelToJson() string {
 	access, _ := json.Marshal(&accessToken)
 	return string(access)
 }
+
+/*
+  "touser": openId,
+  "template_id": templateId,
+  "url": tplUrl,
+  "data": data
+*/
+
+type SendMsg struct {
+	ToUser, TemplateId, Url, Data, AppId, AppSec string
+}
+
+func (sendMsg *SendMsg) ModelToJson() string {
+	access, _ := json.Marshal(&sendMsg)
+	return string(access)
+}
+
+func (sendMsg *SendMsg) JsonToModel(body []byte) error {
+	err := json.Unmarshal(body, &sendMsg)
+	return err
+}

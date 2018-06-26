@@ -7,10 +7,7 @@ import (
 	"net/http"
 )
 
-type HttpUtil struct {
-}
-
-func (httpUtil HttpUtil) Get(url string, jsonModel model.JsonModel) (model.JsonModel, error) {
+func  HttpGet(url string, jsonModel model.JsonModel) (model.JsonModel, error) {
 	//发送请求
 	resp, err := http.Get(url)
 	if err != nil || resp.StatusCode != http.StatusOK {

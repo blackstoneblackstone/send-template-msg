@@ -29,7 +29,7 @@ func GetConfig() *Config {
 	cfg := Config{}
 	once := sync.Once{}
 	once.Do(func() {
-		filePath, _ := filepath.Abs("../../config.toml")
+		filePath, _ := filepath.Abs("./config.toml")
 		if _, err := toml.DecodeFile(filePath, &cfg); err != nil {
 			panic(err)
 		}

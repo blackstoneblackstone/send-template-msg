@@ -9,24 +9,24 @@ import (
 )
 
 type MysqlApi struct {
-	db     *sql.DB
+	db *sql.DB
 }
 
 func CreateMysqlApi() MysqlApi {
-	common.GetConfig()
-	mysqlApi := MysqlApi{config: config}
+	mysqlApi := MysqlApi{}
 	mysqlApi.connect()
 	return mysqlApi
 }
 func (mysqlApi *MysqlApi) connect() error {
-	mysqlUrl := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8", mysqlApi.config.DB.Username,
-		mysqlApi.config.DB.Password, mysqlApi.config.DB.Server, mysqlApi.config.DB.Port, mysqlApi.config.DB.Db)
+	config := common.GetConfig()
+	mysqlUrl := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8", config.DB.Username,
+		config.DB.Password, config.DB.Server, config.DB.Port, config.DB.Db)
 	db, err := sql.Open("mysql", mysqlUrl)
-	db.SetMaxOpenConns(mysqlApi.config.DB.PoolNumber)
+	db.SetMaxOpenConns(config.DB.PoolNumber)
 	mysqlApi.db = db
 	return err
 }
-func (mysqlApi MysqlApi) GetWxApp(appId string) (string, error) {
+func (mysqlApi *MysqlApi) GetWxApp(appId string) (string, error) {
 	stmt, err := mysqlApi.db.Prepare("SELECT appsecret FROM jmqjwxapp WHERE appid = ?")
 	if err != nil {
 		log.Fatal(err)
@@ -39,4 +39,17 @@ func (mysqlApi MysqlApi) GetWxApp(appId string) (string, error) {
 		}
 	}
 	return appSec, err
+}
+func (mysqlApi *MysqlApi) SaveOpenIds(appId string, openId string) {
+	stmt, err := mysqlApi.db.Prepare("insert into jmqjopenids (appid,openid) values (?,?)")
+	if err != nil {
+		log.Fatal(err)
+	}
+	re, e := stmt.Exec(appId, openId)
+	if e != nil {
+		log.Println(e)
+	} else {
+		insertId, _ := re.LastInsertId()
+		log.Println(insertId)
+	}
 }

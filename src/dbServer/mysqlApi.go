@@ -41,7 +41,7 @@ func (mysqlApi *MysqlApi) GetWxApp(appId string) (string, error) {
 	return appSec, err
 }
 func (mysqlApi *MysqlApi) SaveOpenIds(appId string, openId string, count chan int) {
-	stmt, err := mysqlApi.db.Prepare("insert into jmqjopenids (appid,openid) values (?,?)")
+	stmt, err := mysqlApi.db.Prepare("insert into jmqjopenids (appid,openid,create_time) values (?,?,NOW())")
 	if err != nil {
 		log.Fatal(err)
 	}

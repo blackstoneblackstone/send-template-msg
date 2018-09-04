@@ -48,4 +48,5 @@ func (mysqlApi *MysqlApi) SaveOpenIds(appId string, openId string, count chan in
 	v := <-count
 	log.Printf("openid -> %s , count-> %d", openId, v)
 	stmt.Exec(appId, openId)
+	stmt.Close()
 }

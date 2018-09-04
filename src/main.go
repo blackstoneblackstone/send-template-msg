@@ -5,12 +5,14 @@ import (
 	"os"
 	"log"
 	"dbServer"
+	"strconv"
 )
 
 func main() {
 
 	//配置文件初始化"wx293dbb0f011bcac3"
 	appId := os.Args[1]
+	start, _ := strconv.Atoi(os.Args[2])
 	mysqlApi := dbServer.CreateMysqlApi()
 	appSec, _ := mysqlApi.GetWxApp(appId)
 	//fmt.Print(appSec)
@@ -28,7 +30,7 @@ func main() {
 	openIds := fans.Data.Openid
 	count := 0
 	for page > 0 {
-		for i := 0; i < len(openIds); i++ {
+		for i := start; i < len(openIds); i++ {
 			count++
 			c <- count
 			go mysqlApi.SaveOpenIds(appId, openIds[i], c)

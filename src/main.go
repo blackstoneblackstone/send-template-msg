@@ -11,6 +11,7 @@ import (
 func main() {
 
 	//配置文件初始化"wx293dbb0f011bcac3"
+	//nv GOOS=linux GOARCH=amd64 go build src/main.go
 	appId := os.Args[1]
 	start, _ := strconv.Atoi(os.Args[2])
 	mysqlApi := dbServer.CreateMysqlApi()

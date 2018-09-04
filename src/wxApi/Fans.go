@@ -3,23 +3,34 @@ package wxApi
 import (
 	"common"
 	"encoding/json"
-	"fmt"
+	"log"
 )
 
 type Fans struct {
+	Errcode      int
+	Errmsg       string
 	Total, Count int
 	Data         Data
-	Next_openid string
+	Next_openid  string
 }
 
 func (fans *Fans) Refresh(appId string, appSec string, nextOpenid string) {
-	accessToken := GetAccessToken(appId, appSec)
-	fmt.Println("accessToken->"+accessToken)
+	fans.getFans(appId, appSec, nextOpenid)
+}
+
+func (fans *Fans) getFans(appId string, appSec string, nextOpenid string) {
+	accessToken := GetAccessToken(appId, appSec, false)
+	log.Println("accessToken->" + accessToken)
 	common.HttpGet(GetOpenidsUrl(accessToken, nextOpenid), fans)
+	//token expired
+	if fans.Errcode == 42001 {
+		GetAccessToken(appId, appSec, true)
+		fans.getFans(appId, appSec, nextOpenid)
+	}
 }
 
 type Data struct {
-	Openid      []string
+	Openid []string
 }
 
 func (fans *Fans) JsonToModel(body []byte) error {

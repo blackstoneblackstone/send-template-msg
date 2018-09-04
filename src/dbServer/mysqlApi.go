@@ -40,16 +40,12 @@ func (mysqlApi *MysqlApi) GetWxApp(appId string) (string, error) {
 	}
 	return appSec, err
 }
-func (mysqlApi *MysqlApi) SaveOpenIds(appId string, openId string) {
+func (mysqlApi *MysqlApi) SaveOpenIds(appId string, openId string, count chan int) {
 	stmt, err := mysqlApi.db.Prepare("insert into jmqjopenids (appid,openid) values (?,?)")
 	if err != nil {
 		log.Fatal(err)
 	}
-	re, e := stmt.Exec(appId, openId)
-	if e != nil {
-		log.Println(e)
-	} else {
-		insertId, _ := re.LastInsertId()
-		log.Println(insertId)
-	}
+	v := <-count
+	log.Printf("openid -> %s , count-> %d", openId, v)
+	stmt.Exec(appId, openId)
 }

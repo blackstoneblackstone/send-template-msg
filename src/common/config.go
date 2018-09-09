@@ -4,6 +4,7 @@ import (
 	"sync"
 	"path/filepath"
 	"github.com/BurntSushi/toml"
+	"runtime"
 )
 
 type Config struct {
@@ -29,7 +30,11 @@ func GetConfig() *Config {
 	cfg := Config{}
 	once := sync.Once{}
 	once.Do(func() {
-		filePath, _ := filepath.Abs("./config.toml")
+		fileName := "./config.toml"
+		if runtime.GOOS == "linux" {
+			fileName = "/opt/server/go/send-template-msg/config.toml"
+		}
+		filePath, _ := filepath.Abs(fileName)
 		if _, err := toml.DecodeFile(filePath, &cfg); err != nil {
 			panic(err)
 		}

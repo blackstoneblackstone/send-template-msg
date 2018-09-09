@@ -40,7 +40,7 @@ func (mysqlApi *MysqlApi) GetWxApp(appId string) (string, error) {
 	}
 	return appSec, err
 }
-func (mysqlApi *MysqlApi) SaveOpenIds(appId string, openId string, count chan int) {
+func (mysqlApi *MysqlApi) SaveOpenId(appId string, openId string, count chan int) {
 	stmt, err := mysqlApi.db.Prepare("insert into jmqjopenids (appid,openid,create_time) values (?,?,NOW())")
 	if err != nil {
 		log.Fatal(err)
@@ -48,5 +48,32 @@ func (mysqlApi *MysqlApi) SaveOpenIds(appId string, openId string, count chan in
 	v := <-count
 	log.Printf("openid -> %s , count-> %d", openId, v)
 	stmt.Exec(appId, openId)
+	stmt.Close()
+}
+
+func (mysqlApi *MysqlApi) SaveOpenIds(appId string, openIds []string) {
+	sql := "insert into jmqjopenids (appid,openid,create_time) values "
+	for _, openId := range openIds {
+		sql = sql + "('" + appId + "','" + openId + "',NOW()),"
+	}
+	sql = sql[0 : len(sql)-1]
+	mysqlApi.db.Exec(sql)
+}
+
+func (mysqlApi *MysqlApi) SaveOpenIdsBySingle(appId string, openIds []string) {
+	sql := "insert into jmqjopenids_test (appid,openid,create_time) values "
+	for _, openId := range openIds {
+		sql = sql + "('" + appId + "','" + openId + "',NOW()),"
+	}
+	sql = sql[0 : len(sql)-1]
+	mysqlApi.db.Exec(sql)
+}
+
+func (mysqlApi *MysqlApi) DeleteAppIdBySingle(appId string) {
+	stmt, err := mysqlApi.db.Prepare("delete from jmqjopenids_test where appid=?")
+	if err != nil {
+		log.Fatal(err)
+	}
+	stmt.Exec(appId)
 	stmt.Close()
 }

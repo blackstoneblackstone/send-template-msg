@@ -11,7 +11,7 @@ import (
 func main() {
 
 	//配置文件初始化"wx293dbb0f011bcac3"
-	//nv GOOS=linux GOARCH=amd64 go build src/fans.go
+	//env GOOS=linux GOARCH=amd64 go build src/fans.go
 	appId := os.Args[1]
 	nextO := os.Args[2]
 	liqud := 5000

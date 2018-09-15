@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-
+	//./bin/fans wx3be7b35d2d7a8256 ""
 	//配置文件初始化"wx293dbb0f011bcac3"
 	//env GOOS=linux GOARCH=amd64 go build src/fans.go
 	appId := os.Args[1]
@@ -17,11 +17,6 @@ func main() {
 	liqud := 5000
 	mysqlApi := dbServer.CreateMysqlApi()
 	appSec, _ := mysqlApi.GetWxApp(appId)
-	//fmt.Print(appSec)
-	//y := "afsaafafasfafa"
-	//x := "sfa"
-	//r := Count(y, x)
-	//fmt.Print(r)
 	fans := wxApi.Fans{}
 	fans.Refresh(appId, appSec, nextO)
 	// openid total

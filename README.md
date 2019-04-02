@@ -17,3 +17,16 @@ go install github.com/gomodule/redigo/redis
 
 go get github.com/go-sql-driver/mysql
 go install github.com/go-sql-driver/mysql
+
+## 打包为bin
+
+  ```      
+         linux ：
+         set GOARCH=amd64
+         set GOOS=linux
+         go build main.go
+ ```
+or
+```go
+env GOOS=linux GOARCH=amd64 go build src/fans.go
+```

@@ -2,8 +2,8 @@ package wxApi
 
 import (
 	"common"
-	"model"
 	"fmt"
+	"model"
 )
 
 type TemplateMsgApi struct {

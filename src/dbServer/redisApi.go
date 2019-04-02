@@ -2,8 +2,8 @@ package dbServer
 
 import (
 	"common"
-	"github.com/gomodule/redigo/redis"
 	"fmt"
+	"github.com/gomodule/redigo/redis"
 )
 
 type RedisApi struct {

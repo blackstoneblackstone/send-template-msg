@@ -2,9 +2,9 @@ package common
 
 import (
 	"io/ioutil"
+	"log"
 	"model"
 	"net/http"
-	"log"
 )
 
 func HttpGet(url string, jsonModel model.JsonModel) (model.JsonModel, error) {

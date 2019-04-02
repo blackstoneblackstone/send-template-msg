@@ -1,10 +1,10 @@
 package dbServer
 
 import (
-	"database/sql"
-	_ "github.com/go-sql-driver/mysql"
 	"common"
+	"database/sql"
 	"fmt"
+	_ "github.com/go-sql-driver/mysql"
 	"log"
 )
 
@@ -68,6 +68,16 @@ func (mysqlApi *MysqlApi) SaveOpenIdsBySingle(appId string, openIds []string) {
 	sql = sql[0 : len(sql)-1]
 	mysqlApi.db.Exec(sql)
 }
+
+func (mysqlApi *MysqlApi) DeleteByAppId(appId string) {
+	stmt, err := mysqlApi.db.Prepare("delete from jmqjopenids where appid=?")
+	if err != nil {
+		log.Fatal(err)
+	}
+	stmt.Exec(appId)
+	stmt.Close()
+}
+
 
 func (mysqlApi *MysqlApi) DeleteAppIdBySingle(appId string) {
 	stmt, err := mysqlApi.db.Prepare("delete from jmqjopenids_test where appid=?")

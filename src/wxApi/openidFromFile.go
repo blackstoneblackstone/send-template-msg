@@ -1,13 +1,13 @@
 package wxApi
 
 import (
-	"common"
-	"os"
 	"bufio"
+	"common"
+	"dbServer"
 	"fmt"
 	"io"
-	"dbServer"
 	"log"
+	"os"
 )
 
 func GetOpenIdFromText(appId string, txtPath string) {

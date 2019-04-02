@@ -1,17 +1,17 @@
 package wxApi
 
 import (
+	"common"
 	"fmt"
 	"io"
 	"io/ioutil"
+	"log"
 	"model"
 	"os"
-	"common"
-	"log"
 )
 
 //isFresh刷新token
-func GetAccessToken(AppId, AppSec string, isRefresh bool) (string) {
+func GetAccessToken(AppId, AppSec string, isRefresh bool) string {
 	config := common.GetConfig()
 	var f *os.File
 	var err1 error
@@ -22,7 +22,7 @@ func GetAccessToken(AppId, AppSec string, isRefresh bool) (string) {
 		fmt.Println("access token file have exist!")
 		read, _ := ioutil.ReadFile(fileName)
 		at.JsonToModel(read)
-		if (at.Access_token != "") {
+		if at.Access_token != "" {
 			log.Println("FILE获取accessToken ->" + at.Access_token)
 			return at.Access_token
 		}

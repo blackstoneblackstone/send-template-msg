@@ -1,10 +1,10 @@
 package common
 
 import (
-	"sync"
-	"path/filepath"
 	"github.com/BurntSushi/toml"
+	"path/filepath"
 	"runtime"
+	"sync"
 )
 
 type Config struct {

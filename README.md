@@ -9,3 +9,11 @@
 - 修改config.toml.bak文件为config.toml
 - 填写文件内容，redis和mysql的配置。
 - 建立数据库wpx-js, 运行mysql.sql文件，建立数据表
+
+## 打包go
+
+go get github.com/gomodule/redigo/redis
+go install github.com/gomodule/redigo/redis
+
+go get github.com/go-sql-driver/mysql
+go install github.com/go-sql-driver/mysql

@@ -1,11 +1,11 @@
 package main
 
 import (
-	"wxApi"
-	"os"
-	"log"
 	"dbServer"
+	"log"
+	"os"
 	"time"
+	"wxApi"
 )
 
 func main() {
@@ -26,6 +26,8 @@ func main() {
 	}
 	page := total/10000 + 1
 	log.Printf("openid length is %d", total)
+	// 删除 appid 下所有人
+	mysqlApi.DeleteByAppId(appId)
 	openIds := fans.Data.Openid
 	count := 0
 	for page > 0 {
